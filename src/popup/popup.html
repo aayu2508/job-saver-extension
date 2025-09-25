@@ -2,12 +2,14 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>JOB SCRAPER</title>
+    <title>Job Scraper</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <h2>JOB SCRAPER</h2>
+    <h2>Job Scraper</h2>
+
     <button id="scrapeBtn">Scrape Job</button>
+    <button id="saveNotionBtn" class="hidden">Save to Notion</button>
 
     <div id="result" class="hidden">
       <p><strong>Company:</strong> <span id="company"></span></p>
@@ -15,6 +17,7 @@
       <p><strong>Location:</strong> <span id="location"></span></p>
     </div>
 
+    <div id="toast"></div>
     <div id="error" class="error hidden"></div>
 
     <script src="popup.js"></script>
