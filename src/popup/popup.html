@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Job Scraper</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <h2>Job Scraper</h2>
+    <button id="scrapeBtn">Scrape Job</button>
+
+    <div id="result" class="hidden">
+      <p><strong>Company:</strong> <span id="company"></span></p>
+      <p><strong>Position:</strong> <span id="position"></span></p>
+      <p><strong>Location:</strong> <span id="location"></span></p>
+      <p><strong>URL:</strong> <span id="url"></span></p>
+    </div>
+
+    <div id="error" class="error hidden"></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
