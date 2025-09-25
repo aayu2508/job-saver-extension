@@ -1,32 +1,79 @@
+/* popup.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 body {
-  font-family: Arial, sans-serif;
-  min-width: 250px;
-  padding: 10px;
+  font-family: 'Inter', sans-serif;
+  min-width: 260px;
+  padding: 16px;
+  background-color: #f9fafb;
+  color: #111827;
 }
 
 h2 {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
 }
 
 button {
-  padding: 6px 12px;
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
   font-size: 14px;
-  margin-bottom: 10px;
+  font-weight: 500;
+  background-color: #071235;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #071235;
+}
+
+button:active {
+  background-color: #071235;
+}
+
+#result {
+  margin-top: 16px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+#result p {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+  font-size: 13px;
+}
+
+#result strong {
+  flex: 1;
+  text-align: right;
+  color: #374151;
+  padding-right: 8px;
+  font-weight: 600;
+}
+
+#result span {
+  flex: 2;
+  text-align: left;
+  color: #111827;
 }
 
 #error {
-  color: red;
+  color: #dc2626;
   font-size: 13px;
-  margin-top: 8px;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .hidden {
   display: none;
-}
-
-#result p {
-  margin: 4px 0;
-  font-size: 13px;
 }

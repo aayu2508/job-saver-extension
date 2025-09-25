@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("company").textContent = data.companyName || "—";
         document.getElementById("position").textContent = data.position || "—";
         document.getElementById("location").textContent = data.location || "—";
-        document.getElementById("url").textContent = data.url || "—";
 
         resultDiv.classList.remove("hidden");
         console.log("✅ Scraped job data:", data);
