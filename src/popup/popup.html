@@ -1,25 +1,110 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+
+<head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Job Scraper</title>
     <link rel="stylesheet" href="popup.css" />
-  </head>
-  <body>
-    <h2>Job Scraper</h2>
+</head>
 
-    <button id="scrapeBtn">Scrape Job</button>
-    <div id="result" class="hidden">
-      <p><strong>Company:</strong> <span id="company"></span></p>
-      <p><strong>Position:</strong> <span id="position"></span></p>
-      <p><strong>Location:</strong> <span id="location"></span></p>
+<body>
+    <div class="extension-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-overlay"></div>
+            <div class="header-content">
+                <div class="header-title">
+                    <i data-lucide="sparkles" class="header-icon"></i>
+                    <h1>Job Scraper</h1>
+                </div>
+                <p class="header-subtitle">Extract and save job details effortlessly</p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <button id="scrapeBtn" class="btn btn-primary btn-large">
+                <i data-lucide="search" class="btn-icon"></i>
+                <span class="btn-text">Scrape Job</span>
+            </button>
+
+            <div id="successMessage" class="success-card hidden">
+                <div class="success-content">
+                    <i data-lucide="check-circle-2" class="success-icon"></i>
+                    <span class="success-text">Scrape successful!</span>
+                </div>
+            </div>
+
+            <div id="result" class="job-card hidden">
+                <div class="job-card-header">
+                    <h3 class="job-card-title">Job Details</h3>
+                    <div class="job-badge">
+                        <i data-lucide="check-circle-2" class="badge-icon"></i>
+                        <span>Extracted</span>
+                    </div>
+                </div>
+
+                <div class="job-card-content">
+                    <div class="job-detail">
+                        <i data-lucide="building-2" class="detail-icon"></i>
+                        <div class="detail-content">
+                            <p class="detail-label">Company</p>
+                            <p id="company" class="detail-value">—</p>
+                        </div>
+                    </div>
+
+                    <div class="job-detail">
+                        <div class="detail-icon detail-dot"></div>
+                        <div class="detail-content">
+                            <p class="detail-label">Position</p>
+                            <p id="position" class="detail-value">—</p>
+                        </div>
+                    </div>
+
+                    <div class="job-detail">
+                        <i data-lucide="map-pin" class="detail-icon"></i>
+                        <div class="detail-content">
+                            <p class="detail-label">Location</p>
+                            <p id="location" class="detail-value">—</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save to Notion (ID must be 'saveNotionBtn') -->
+            <button id="saveNotionBtn" class="btn btn-secondary btn-large hidden">
+                <i data-lucide="database" class="btn-icon"></i>
+                <span class="btn-text">Save to Notion</span>
+            </button>
+
+            <!-- Your toast + error elements (your JS uses these IDs) -->
+            <div id="toast"></div>
+            <div id="error" class="error hidden"></div>
+        </div>
     </div>
-    
-    <button id="saveNotionBtn" class="hidden">Save to Notion</button>
-
-    <div id="toast"></div>
-    <div id="error" class="error hidden"></div>
 
     <script src="popup.js"></script>
-  </body>
+    <script src="lucide.js"></script>
+    <script src="ui_adapter.js"></script>
+    <script>
+        function renderIcons() {
+            if (window.lucide && typeof lucide.createIcons === "function") {
+                lucide.createIcons();
+            }
+        }
+
+        // Run once when popup opens
+        document.addEventListener("DOMContentLoaded", renderIcons);
+
+        // Also re-run whenever UI adapter flips icons
+        document.addEventListener("ui:scrape:start", renderIcons);
+        document.addEventListener("ui:scrape:success", renderIcons);
+        document.addEventListener("ui:scrape:error", renderIcons);
+        document.addEventListener("ui:save:start", renderIcons);
+        document.addEventListener("ui:save:success", renderIcons);
+        document.addEventListener("ui:save:error", renderIcons);
+    </script>
+
+</body>
 </html>

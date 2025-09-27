@@ -1,37 +1,42 @@
 {
-  "manifest_version": 3,
-  "name": "Job Saver Extension",
-  "version": "1.0.0",
-  "description": "Chrome extension that scrapes job details from career sites and saves them to Notion",
-  "permissions": [
-    "activeTab",
-    "storage",
-    "scripting"
-  ],
-  "host_permissions": [
-    "https://*/*",
-    "http://*/*",
-    "https://api.notion.com/*"
-  ],
-  "background": {
-    "service_worker": "src/background/index.js",
-    "type": "module"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["src/content/index.js"],
-      "run_at": "document_idle"
-    }
-  ],
-  "action": {
-    "default_popup": "src/popup/popup.html",
-    "default_title": "Save Job Details to Notion"
-  },
-  "web_accessible_resources": [
-    {
-      "resources": ["src/popup/*"],
-      "matches": ["<all_urls>"]
-    }
-  ]
+    "manifest_version": 3,
+    "name": "Job Saver Extension",
+    "version": "1.0.0",
+    "description": "Chrome extension that scrapes job details from career sites and saves them to Notion",
+    "permissions": [
+        "activeTab",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://api.notion.com/*"
+    ],
+    "background": {
+        "service_worker": "src/background/index.js",
+        "type": "module"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "src/content/index.js"
+            ],
+            "type": "module"
+        }
+    ],
+    "action": {
+        "default_popup": "src/popup/popup.html",
+        "default_title": "Job Scraper"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "src/popup/*"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ]
 }

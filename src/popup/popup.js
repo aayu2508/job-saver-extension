@@ -12,24 +12,28 @@ const locationEl = document.getElementById('location');
 let lastScraped = null; // holds the latest scraped job to save
 
 function showToast(type, msg) {
+  if (!toastEl) return;
   toastEl.className = '';
   toastEl.textContent = msg;
-  toastEl.style.display = 'block'; // ensure visible
+  toastEl.style.display = 'block';
   toastEl.classList.add(type === 'success' ? 'success' : 'error');
 }
 
 function clearToast() {
+  if (!toastEl) return;
   toastEl.className = '';
   toastEl.style.display = 'none';
   toastEl.textContent = '';
 }
 
 function showError(msg) {
+  if (!errorEl) return;
   errorEl.textContent = msg;
   errorEl.classList.remove('hidden');
 }
 
 function clearError() {
+  if (!errorEl) return;
   errorEl.textContent = '';
   errorEl.classList.add('hidden');
 }
@@ -37,18 +41,23 @@ function clearError() {
 scrapeBtn.addEventListener('click', async () => {
   clearError();
   clearToast();
+  document.dispatchEvent(new CustomEvent('ui:scrape:start'));
 
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab?.id) {
-      showError('No active tab found.');
+      const message = 'No active tab found.';
+      showError(message);
+      document.dispatchEvent(new CustomEvent('ui:scrape:error', { detail: { message } }));
       return;
     }
 
     const response = await chrome.tabs.sendMessage(tab.id, { action: 'scrapeJob' });
 
     if (!response?.success) {
-      showError(response?.error || 'Failed to scrape this page.');
+      const message = response?.error || 'Failed to scrape this page.';
+      showError(message);
+      document.dispatchEvent(new CustomEvent('ui:scrape:error', { detail: { message } }));
       return;
     }
 
@@ -69,8 +78,9 @@ scrapeBtn.addEventListener('click', async () => {
       data?.jobLocation ||
       '';
     const applicationDate = data?.applicationDate;
-    
-    console.log("Data received from content script:", data); 
+
+    console.log('Data received from content script:', data);
+
     // Update UI
     companyEl.textContent = company || '—';
     positionEl.textContent = position || '—';
@@ -82,9 +92,12 @@ scrapeBtn.addEventListener('click', async () => {
     lastScraped = { company, position, location, applicationDate, metadata: data?.metadata };
 
     showToast('success', 'Scrape successful.');
+    document.dispatchEvent(new CustomEvent('ui:scrape:success', { detail: { company, position, location } }));
   } catch (e) {
     console.error(e);
-    showError('Could not scrape this page.');
+    const message = 'Could not scrape this page.';
+    showError(message);
+    document.dispatchEvent(new CustomEvent('ui:scrape:error', { detail: { message } }));
   }
 });
 
@@ -100,8 +113,9 @@ saveBtn.addEventListener('click', async () => {
   try {
     saveBtn.disabled = true;
     saveBtn.textContent = 'Saving…';
+    document.dispatchEvent(new CustomEvent('ui:save:start'));
 
-    // Background listener uses your own message contract
+    // Background listener uses your message contract
     const res = await chrome.runtime.sendMessage({
       action: 'saveJob',
       job: lastScraped
@@ -109,12 +123,17 @@ saveBtn.addEventListener('click', async () => {
 
     if (res?.ok) {
       showToast('success', 'Saved to Notion!!');
+      document.dispatchEvent(new CustomEvent('ui:save:success'));
     } else {
-      showToast('error', res?.message || 'Failed to save to Notion.');
+      const message = res?.message || 'Failed to save to Notion.';
+      showToast('error', message);
+      document.dispatchEvent(new CustomEvent('ui:save:error', { detail: { message } }));
     }
   } catch (e) {
     console.error(e);
-    showToast('error', 'Error saving to Notion.');
+    const message = 'Error saving to Notion.';
+    showToast('error', message);
+    document.dispatchEvent(new CustomEvent('ui:save:error', { detail: { message } }));
   } finally {
     saveBtn.disabled = false;
     saveBtn.textContent = 'Save to Notion';
