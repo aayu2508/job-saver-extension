@@ -11,30 +11,24 @@
 <body>
     <div class="extension-container">
         <!-- Header -->
-        <div class="header">
+        <header class="header">
             <div class="header-overlay"></div>
             <div class="header-content">
                 <div class="header-title">
                     <i data-lucide="sparkles" class="header-icon"></i>
                     <h1>Job Scraper</h1>
                 </div>
-                <p class="header-subtitle">Extract and save job details effortlessly</p>
+                <p class="header-subtitle">Extract and save job details effortlessly!</p>
             </div>
-        </div>
+        </header>
 
         <!-- Main Content -->
-        <div class="main-content">
-            <button id="scrapeBtn" class="btn btn-primary btn-large">
+        <main class="main-content">
+            <button id="scrapeBtn" class="btn btn-primary btn-large" data-label-idle="Scrape Job"
+                data-label-loading="Scraping…">
                 <i data-lucide="search" class="btn-icon"></i>
                 <span class="btn-text">Scrape Job</span>
             </button>
-
-            <div id="successMessage" class="success-card hidden">
-                <div class="success-content">
-                    <i data-lucide="check-circle-2" class="success-icon"></i>
-                    <span class="success-text">Scrape successful!</span>
-                </div>
-            </div>
 
             <div id="result" class="job-card hidden">
                 <div class="job-card-header">
@@ -44,7 +38,6 @@
                         <span>Extracted</span>
                     </div>
                 </div>
-
                 <div class="job-card-content">
                     <div class="job-detail">
                         <i data-lucide="building-2" class="detail-icon"></i>
@@ -53,7 +46,6 @@
                             <p id="company" class="detail-value">—</p>
                         </div>
                     </div>
-
                     <div class="job-detail">
                         <div class="detail-icon detail-dot"></div>
                         <div class="detail-content">
@@ -61,7 +53,6 @@
                             <p id="position" class="detail-value">—</p>
                         </div>
                     </div>
-
                     <div class="job-detail">
                         <i data-lucide="map-pin" class="detail-icon"></i>
                         <div class="detail-content">
@@ -72,39 +63,19 @@
                 </div>
             </div>
 
-            <!-- Save to Notion (ID must be 'saveNotionBtn') -->
-            <button id="saveNotionBtn" class="btn btn-secondary btn-large hidden">
+            <button id="saveNotionBtn" class="btn btn-secondary btn-large hidden" data-label-idle="Save to Notion"
+                data-label-loading="Saving…">
                 <i data-lucide="database" class="btn-icon"></i>
                 <span class="btn-text">Save to Notion</span>
             </button>
 
-            <!-- Your toast + error elements (your JS uses these IDs) -->
-            <div id="toast"></div>
-            <div id="error" class="error hidden"></div>
-        </div>
+            <div id="toast" role="status" aria-live="polite"></div>
+        </main>
     </div>
 
-    <script src="popup.js"></script>
-    <script src="lucide.js"></script>
-    <script src="ui_adapter.js"></script>
-    <script>
-        function renderIcons() {
-            if (window.lucide && typeof lucide.createIcons === "function") {
-                lucide.createIcons();
-            }
-        }
-
-        // Run once when popup opens
-        document.addEventListener("DOMContentLoaded", renderIcons);
-
-        // Also re-run whenever UI adapter flips icons
-        document.addEventListener("ui:scrape:start", renderIcons);
-        document.addEventListener("ui:scrape:success", renderIcons);
-        document.addEventListener("ui:scrape:error", renderIcons);
-        document.addEventListener("ui:save:start", renderIcons);
-        document.addEventListener("ui:save:success", renderIcons);
-        document.addEventListener("ui:save:error", renderIcons);
-    </script>
-
+    <script src="lucide.js" defer></script>
+    <script src="ui_adapter.js" defer></script>
+    <script src="popup.js" defer></script>
 </body>
+
 </html>
